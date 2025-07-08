@@ -2,9 +2,8 @@ pipeline {
     agent any
 
     environment {
-        AZURE_WEBAPP_NAME = 'mypython' // Your Azure Web App name
-        AZURE_REGION_SUFFIX = 'canadacentral-01' // Azure region suffix
-        AZURE_CREDENTIAL_ID = 'azure-webapp-publish-profile' // Jenkins credential ID
+        AZURE_WEBAPP_NAME = 'mypython-fphccmenhyd3h6ag'
+        AZURE_CREDENTIAL_ID = 'azure-webapp-publish-profile'
         ZIP_NAME = 'flaskapp.zip'
         VENV = 'venv'
     }
@@ -19,9 +18,10 @@ pipeline {
         stage('Install Dependencies') {
             steps {
                 sh '''
-                    python3 -m venv ${VENV}
+                    python3 -m venv ${VENV} || true
                     . ${VENV}/bin/activate
-                    pip install -r requirements.txt
+                    pip install flask
+                    echo "flask" > requirements.txt
                 '''
             }
         }
@@ -40,7 +40,7 @@ pipeline {
                     sh '''
                         USERNAME=$(grep userName ${PUBLISH_PROFILE} | sed 's/.*="\\(.*\\)".*/\\1/')
                         PASSWORD=$(grep userPWD ${PUBLISH_PROFILE} | sed 's/.*="\\(.*\\)".*/\\1/')
-                        DEPLOY_URL="https://${AZURE_WEBAPP_NAME}.scm.${AZURE_REGION_SUFFIX}.azurewebsites.net/api/zipdeploy"
+                        DEPLOY_URL="https://${AZURE_WEBAPP_NAME}.scm.azurewebsites.net/api/zipdeploy"
 
                         echo "[INFO] Deploying to $DEPLOY_URL..."
                         curl -X POST -u $USERNAME:$PASSWORD --data-binary @${ZIP_NAME} -H "Content-Type: application/zip" $DEPLOY_URL
