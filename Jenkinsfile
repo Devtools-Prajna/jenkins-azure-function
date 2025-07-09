@@ -27,9 +27,16 @@ pipeline {
                 // Write publish profile to file
                 writeFile file: 'publishProfile.publishSettings', text: "${AZURE_CREDENTIALS}"
                 
-                // Deploy using Maven plugin or Azure CLI
-                sh 'mvn azure-functions:deploy -Pazure'
+                // Deploy using Maven plugin
+                sh 'mvn azure-functions:deploy'
             }
+        }
+    }
+
+    post {
+        always {
+            echo 'Pipeline finished.'
+            sh 'rm -f publishProfile.publishSettings'
         }
     }
 }
