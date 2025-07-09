@@ -17,10 +17,10 @@ pipeline {
         }
 
         stage('Build and Package') {
-            steps {
-                sh 'mvn clean package'
-            }
-        }
+    steps {
+        sh 'mvn clean package azure-functions:package'
+          }
+       }
 
         stage('Deploy to Azure Function') {
             steps {
