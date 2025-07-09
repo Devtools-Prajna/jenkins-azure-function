@@ -1,51 +1,34 @@
 pipeline {
     agent any
 
+    tools {
+        maven 'M398'  // Ensure this is configured in Jenkins Global Tools
+    }
+
     environment {
-        AZURE_WEBAPP_NAME = 'mypython-fphccmenhyd3h6ag'
-        AZURE_CREDENTIAL_ID = 'azure-webapp-publish-profile'
-        ZIP_NAME = 'flaskapp.zip'
-        VENV = 'venv'
+        AZURE_CREDENTIALS = credentials('AZURE_FUNCTION_PUBLISH_PROFILE') // Jenkins secret
     }
 
     stages {
         stage('Checkout') {
             steps {
-                git branch: 'main', url: 'https://github.com/Devtools-Prajna/jenkins-repo.git'
+                checkout scm
             }
         }
 
-        stage('Install Dependencies') {
+        stage('Build and Package') {
             steps {
-                sh '''
-                    python3 -m venv ${VENV} || true
-                    . ${VENV}/bin/activate
-                    pip install flask
-                    echo "flask" > requirements.txt
-                '''
+                sh 'mvn clean package'
             }
         }
 
-        stage('Package App') {
+        stage('Deploy to Azure Function') {
             steps {
-                sh '''
-                    zip -r ${ZIP_NAME} app.py requirements.txt -x "${VENV}/*" ".git/*"
-                '''
-            }
-        }
-
-        stage('Deploy to Azure') {
-            steps {
-                withCredentials([file(credentialsId: "${AZURE_CREDENTIAL_ID}", variable: 'PUBLISH_PROFILE')]) {
-                    sh '''
-                        USERNAME=$(grep userName ${PUBLISH_PROFILE} | sed 's/.*="\\(.*\\)".*/\\1/')
-                        PASSWORD=$(grep userPWD ${PUBLISH_PROFILE} | sed 's/.*="\\(.*\\)".*/\\1/')
-                        DEPLOY_URL="https://${AZURE_WEBAPP_NAME}.scm.azurewebsites.net/api/zipdeploy"
-
-                        echo "[INFO] Deploying to $DEPLOY_URL..."
-                        curl -X POST -u $USERNAME:$PASSWORD --data-binary @${ZIP_NAME} -H "Content-Type: application/zip" $DEPLOY_URL
-                    '''
-                }
+                // Write publish profile to file
+                writeFile file: 'publishProfile.publishSettings', text: "${AZURE_CREDENTIALS}"
+                
+                // Deploy using Maven plugin or Azure CLI
+                sh 'mvn azure-functions:deploy -Pazure'
             }
         }
     }
