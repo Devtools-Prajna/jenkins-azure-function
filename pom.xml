@@ -16,8 +16,18 @@
     <java.version>17</java.version>
   </properties>
 
+  <dependencies>
+    <!-- Azure Functions Java Library -->
+    <dependency>
+      <groupId>com.microsoft.azure.functions</groupId>
+      <artifactId>azure-functions-java-library</artifactId>
+      <version>1.4.4</version>
+    </dependency>
+  </dependencies>
+
   <build>
     <plugins>
+      <!-- Azure Functions Plugin -->
       <plugin>
         <groupId>com.microsoft.azure</groupId>
         <artifactId>azure-functions-maven-plugin</artifactId>
@@ -33,6 +43,17 @@
           <deployment>
             <type>zip</type>
           </deployment>
+        </configuration>
+      </plugin>
+
+      <!-- Java Compiler Plugin -->
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-compiler-plugin</artifactId>
+        <version>3.10.1</version>
+        <configuration>
+          <source>${java.version}</source>
+          <target>${java.version}</target>
         </configuration>
       </plugin>
     </plugins>
