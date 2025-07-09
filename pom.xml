@@ -10,10 +10,10 @@
   <packaging>jar</packaging>
 
   <properties>
-    <functionAppName>javaapp</functionAppName>
-    <functionResourceGroup>github-actions</functionResourceGroup>
-    <functionRegion>canada-central</functionRegion>
-    <java.version>17</java.version>
+      <functionAppName>javaapp</functionAppName>
+      <functionResourceGroup>github-actions</functionResourceGroup>
+      <functionRegion>canadacentral</functionRegion>
+      <java.version>11</java.version>
   </properties>
 
   <dependencies>
