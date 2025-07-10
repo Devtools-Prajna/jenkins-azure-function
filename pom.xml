@@ -49,8 +49,8 @@
           <appName>${functionAppName}</appName>
           <region>${functionRegion}</region>
           <runtime>
-            <os>linux</os>
-            <javaVersion>11</javaVersion>
+           <os>windows</os>
+           <javaVersion>11</javaVersion>
           </runtime>
           <appSettings>
             <property>
