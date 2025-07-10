@@ -2,11 +2,11 @@ pipeline {
     agent any
 
     tools {
-        maven 'M398'  // Ensure this is configured in Jenkins Global Tools
+        maven 'M398'  // Must match name in Jenkins Global Tools config
     }
 
     environment {
-        AZURE_CREDENTIALS = credentials('AZURE_FUNCTION_PUBLISH_PROFILE') // Jenkins secret
+        AZURE_CREDENTIALS = credentials('AZURE_FUNCTION_PUBLISH_PROFILE') // The publish profile as Jenkins secret text
     }
 
     stages {
@@ -24,10 +24,10 @@ pipeline {
 
         stage('Deploy to Azure Function') {
             steps {
-                // Save publish profile to file
+                // Save the publish profile to a file
                 writeFile file: 'publishProfile.publishSettings', text: "${AZURE_CREDENTIALS}"
 
-                // Deploy using publish profile
+                // Deploy using the publish profile
                 sh '''
                     mvn azure-functions:deploy \
                         -Dazure.functions.publish.profile=publishProfile.publishSettings \
@@ -39,7 +39,7 @@ pipeline {
 
     post {
         always {
-            echo 'Pipeline finished.'
+            echo 'Cleaning up sensitive files...'
             sh 'rm -f publishProfile.publishSettings'
         }
     }
