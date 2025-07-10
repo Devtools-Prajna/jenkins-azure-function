@@ -5,20 +5,26 @@ import com.microsoft.azure.functions.*;
 
 import java.util.Optional;
 
+/**
+ * Azure Functions with HTTP Trigger.
+ */
 public class Function {
-    @FunctionName("RootHandler")
+
+    @FunctionName("HttpExample")
     public HttpResponseMessage run(
         @HttpTrigger(
             name = "req",
             methods = {HttpMethod.GET},
             authLevel = AuthorizationLevel.ANONYMOUS,
-            route = "" // <-- root path
+            route = ""  // This maps the function to the root URL "/"
         ) HttpRequestMessage<Optional<String>> request,
         final ExecutionContext context
     ) {
-        context.getLogger().info("Root URL accessed.");
-        return request.createResponseBuilder(HttpStatus.OK)
-            .body("Welcome to the homepage powered by Azure Functions!")
+        context.getLogger().info("HTTP trigger function processed a request at root path.");
+        return request
+            .createResponseBuilder(HttpStatus.OK)
+            .header("Content-Type", "text/plain")
+            .body("Welcome to the homepage! Your Azure Function is working.")
             .build();
     }
 }
