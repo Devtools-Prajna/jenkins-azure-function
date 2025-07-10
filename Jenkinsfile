@@ -17,18 +17,22 @@ pipeline {
         }
 
         stage('Build and Package') {
-    steps {
-        sh 'mvn clean package azure-functions:package'
-          }
-       }
+            steps {
+                sh 'mvn clean package azure-functions:package'
+            }
+        }
 
         stage('Deploy to Azure Function') {
             steps {
-                // Write publish profile to file
+                // Save publish profile to file
                 writeFile file: 'publishProfile.publishSettings', text: "${AZURE_CREDENTIALS}"
-                
-                // Deploy using Maven plugin
-                sh 'mvn azure-functions:deploy'
+
+                // Deploy using publish profile
+                sh '''
+                    mvn azure-functions:deploy \
+                        -Dazure.functions.publish.profile=publishProfile.publishSettings \
+                        -Dazure.functions.deploy.type=publish-profile
+                '''
             }
         }
     }
