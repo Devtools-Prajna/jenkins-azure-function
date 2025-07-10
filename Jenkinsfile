@@ -1,12 +1,13 @@
+
 pipeline {
     agent any
 
     tools {
-        maven 'M398'
+        maven 'M398' // Maven tool from Jenkins global config
     }
 
     environment {
-        AZURE_CREDENTIALS = credentials('AZURE_FUNCTION_PUBLISH_PROFILE')
+        AZURE_CREDENTIALS = credentials('AZURE_FUNCTION_PUBLISH_PROFILE') // must be type "Secret Text"
     }
 
     stages {
@@ -24,11 +25,17 @@ pipeline {
 
         stage('Deploy to Azure Function') {
             steps {
-                // Save the publish profile content to a file
-                writeFile file: 'publishProfile.publishSettings', text: "${AZURE_CREDENTIALS}"
+                // Write the secret text content directly to file without interpolation
+                script {
+                    writeFile file: 'publishProfile.publishSettings', text: AZURE_CREDENTIALS
+                }
 
-                // Deploy using publish profile
-                sh 'mvn azure-functions:deploy -Dazure.functions.publish.profile=publishProfile.publishSettings -Dazure.functions.deploy.type=publish-profile'
+                // Use Maven deploy with publish profile
+                sh '''
+                    mvn azure-functions:deploy \
+                        -Dazure.functions.deploy.type=publish-profile \
+                        -Dazure.functions.publish.profile=publishProfile.publishSettings
+                '''
             }
         }
     }
