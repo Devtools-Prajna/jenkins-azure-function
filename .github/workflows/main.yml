@@ -14,22 +14,17 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v4
 
-      - name: Set up Java 11
+      - name: Set up Java 11 with cache v4
         uses: actions/setup-java@v4
         with:
           distribution: 'temurin'
           java-version: '11'
-          cache: 'maven'  # explicitly uses latest cache version
+          cache: 'maven'  # Ensures cache uses v4 internally
 
       - name: Log in to Azure using service principal
         uses: azure/login@v1
         with:
           creds: ${{ secrets.AZURE_CREDENTIALS }}
 
-      - name: Set up Maven
-        uses: s4u/setup-maven-action@v1.13.0
-        with:
-          maven-version: '3.9.5'
-
-      - name: Build and Deploy to Azure Function App
+      - name: Build and deploy to Azure Function App
         run: mvn clean package azure-functions:deploy
