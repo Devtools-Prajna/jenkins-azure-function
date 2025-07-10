@@ -10,7 +10,7 @@ import java.util.Optional;
  */
 public class Function {
 
-    @FunctionName("HttpExample")
+    @FunctionName("rootHandler")
     public HttpResponseMessage run(
         @HttpTrigger(
             name = "req",
