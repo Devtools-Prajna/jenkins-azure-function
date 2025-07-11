@@ -1,5 +1,3 @@
-package com.example;
-
 import com.microsoft.azure.functions.annotation.*;
 import com.microsoft.azure.functions.*;
 
@@ -31,7 +29,7 @@ public class Function {
             + "  <style>"
             + "    body {"
             + "      font-family: Arial, sans-serif;"
-            + "      background: linear-gradient(to right, #00c6ff, #0072ff);" // New blue-green gradient
+            + "      background: linear-gradient(to right, #6a11cb, #2575fc);"
             + "      color: white;"
             + "      display: flex;"
             + "      flex-direction: column;"
@@ -46,7 +44,7 @@ public class Function {
             + "      margin-top: 20px;"
             + "      padding: 10px 20px;"
             + "      background-color: white;"
-            + "      color: #0072ff;"
+            + "      color: #2575fc;"
             + "      border: none;"
             + "      border-radius: 5px;"
             + "      cursor: pointer;"
@@ -58,7 +56,7 @@ public class Function {
             + "  </style>"
             + "</head>"
             + "<body>"
-            + "  <h1>Welcome to Azure Function App</h1>"
+            + "  <h1>Azure Function App</h1>"
             + "  <p>Your Azure Function is working!</p>"
             + "  <button class='button' onclick='alert(\"Button Clicked!\")'>Click Me</button>"
             + "</body>"
