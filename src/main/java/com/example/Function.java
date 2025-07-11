@@ -8,7 +8,7 @@ import java.util.Optional;
  */
 public class Function {
 
-    @FunctionName("")
+    @FunctionName("function")
     public HttpResponseMessage run(
         @HttpTrigger(
             name = "req",
