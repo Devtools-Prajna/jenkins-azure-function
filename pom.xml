@@ -28,7 +28,7 @@
 
   <build>
     <plugins>
-      <!-- Maven Compiler Plugin -->
+      <!-- Compiler Plugin -->
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-compiler-plugin</artifactId>
@@ -39,7 +39,7 @@
         </configuration>
       </plugin>
 
-      <!-- Azure Functions Maven Plugin -->
+      <!-- Azure Functions Plugin -->
       <plugin>
         <groupId>com.microsoft.azure</groupId>
         <artifactId>azure-functions-maven-plugin</artifactId>
@@ -49,7 +49,7 @@
           <appName>${functionAppName}</appName>
           <region>${functionRegion}</region>
           <runtime>
-            <os>windows</os>
+            <os>linux</os> <!-- ✅ fixed from windows -->
             <javaVersion>11</javaVersion>
           </runtime>
           <appSettings>
@@ -57,19 +57,15 @@
               <name>FUNCTIONS_EXTENSION_VERSION</name>
               <value>~4</value>
             </property>
+            <property>
+              <name>FUNCTIONS_WORKER_RUNTIME</name>
+              <value>java</value>
+            </property>
           </appSettings>
           <deployment>
             <type>zip</type>
           </deployment>
         </configuration>
-        <executions>
-          <execution>
-            <id>package-functions</id>
-            <goals>
-              <goal>package</goal>
-            </goals>
-          </execution>
-        </executions>
       </plugin>
     </plugins>
   </build>
