@@ -49,7 +49,7 @@
           <appName>${functionAppName}</appName>
           <region>${functionRegion}</region>
           <runtime>
-            <os>linux</os>
+            <os>windows</os>
             <javaVersion>11</javaVersion>
           </runtime>
           <appSettings>
