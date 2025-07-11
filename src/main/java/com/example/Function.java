@@ -16,7 +16,7 @@ public class Function {
             name = "req",
             methods = {HttpMethod.GET},
             authLevel = AuthorizationLevel.ANONYMOUS,
-            route = "https://javaapp-fqfaf2h5bvaxfqd3.canadacentral-01.azurewebsites.net/"
+            route = ""
         ) HttpRequestMessage<Optional<String>> request,
         final ExecutionContext context
     ) {
