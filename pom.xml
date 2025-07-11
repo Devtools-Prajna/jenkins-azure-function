@@ -27,17 +27,8 @@
   </dependencies>
 
   <build>
-    <resources>
-      <resource>
-        <directory>${project.basedir}</directory>
-        <includes>
-          <include>host.json</include>
-        </includes>
-      </resource>
-    </resources>
-
     <plugins>
-      <!-- Compiler Plugin -->
+      <!-- Maven Compiler Plugin -->
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-compiler-plugin</artifactId>
@@ -48,7 +39,7 @@
         </configuration>
       </plugin>
 
-      <!-- Azure Functions Plugin -->
+      <!-- Azure Functions Maven Plugin -->
       <plugin>
         <groupId>com.microsoft.azure</groupId>
         <artifactId>azure-functions-maven-plugin</artifactId>
