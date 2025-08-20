@@ -29,7 +29,7 @@ pipeline {
                 SONAR_TOKEN = credentials('sonarqube-token')
             }
             steps {
-                withSonarQubeEnv('sonarqube-gate') {
+                withSonarQubeEnv('sonarqube') {
                     sh """
                     mvn sonar:sonar \
                         -Dsonar.projectKey=${SONAR_PROJECT_KEY} \
