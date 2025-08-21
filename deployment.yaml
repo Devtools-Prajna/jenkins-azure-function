@@ -1,0 +1,38 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: java-function-app
+  labels:
+    app: java-function-app
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: java-function-app
+  template:
+    metadata:
+      labels:
+        app: java-function-app
+    spec:
+      containers:
+      - name: java-function-app
+        image: prajnashetty529/java-app:latest 
+        ports:
+        - containerPort: 80
+        env:
+        - name: FUNCTIONS_WORKER_RUNTIME
+          value: java
+        - name: AzureWebJobsStorage
+          value: "UseDevelopmentStorage=true"
+apiVersion: v1
+kind: Service
+metadata:
+  name: java-function-service
+spec:
+  type: LoadBalancer
+  selector:
+    app: java-function-app
+  ports:
+  - protocol: TCP
+    port: 80
+    targetPort: 80
