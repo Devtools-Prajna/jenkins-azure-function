@@ -64,5 +64,15 @@ pipeline {
                 """
             }
         }
+
+         stage('Deploy') {
+            steps {
+                withCredentials([file(credentialsId: 'kubeconfig-secret', variable: 'KUBECONFIG')]) {
+                    sh '''
+                    kubectl --kubeconfig=$KUBECONFIG apply -f deployment.yaml
+                    '''
+                }
+            }
+        }
     }
 }
