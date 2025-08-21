@@ -65,11 +65,13 @@ pipeline {
             }
         }
 
-         stage('Deploy') {
+        stage('Deploy to AKS') {
             steps {
                 withCredentials([file(credentialsId: 'kubeconfig-secret', variable: 'KUBECONFIG')]) {
                     sh '''
                     kubectl get node
+                    kubectl apply -f k8s/deployment.yaml
+                    kubectl apply -f k8s/service-nodeport.yaml
                     '''
                 }
             }
