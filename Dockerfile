@@ -1,8 +1,5 @@
-FROM mcr.microsoft.com/azure-functions/java:4-java11
-
-WORKDIR /home/site/wwwroot
-
-COPY target/azure-functions/javaapp/ .
-
-EXPOSE 80
-
+FROM openjdk:17-jdk-slim
+VOLUME /tmp
+COPY target/*.jar app.jar
+EXPOSE 8080
+ENTRYPOINT ["java", "-jar", "/app.jar"]
