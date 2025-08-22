@@ -2,73 +2,47 @@
          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 
                              http://maven.apache.org/xsd/maven-4.0.0.xsd">
-  <modelVersion>4.0.0</modelVersion>
+    <modelVersion>4.0.0</modelVersion>
 
-  <groupId>com.example</groupId>
-  <artifactId>javaapp</artifactId>  <!-- Make this match the function app name -->
-  <version>1.0-SNAPSHOT</version>
-  <packaging>jar</packaging>
+    <groupId>com.example</groupId>
+    <artifactId>javaapp</artifactId>
+    <version>1.0.0</version>
+    <packaging>jar</packaging>
 
-  <properties>
-    <functionAppName>javaapp</functionAppName>
-    <functionResourceGroup>functionresource</functionResourceGroup>
-    <functionRegion>Canada Central</functionRegion>
-    <java.version>11</java.version>
-    <maven.compiler.source>11</maven.compiler.source>
-    <maven.compiler.target>11</maven.compiler.target>
-  </properties>
+    <properties>
+        <java.version>11</java.version>
+        <spring.boot.version>2.7.18</spring.boot.version> <!-- Or latest supported version -->
+    </properties>
 
-  <dependencies>
-    <dependency>
-      <groupId>com.microsoft.azure.functions</groupId>
-      <artifactId>azure-functions-java-library</artifactId>
-      <version>1.4.2</version>
-    </dependency>
-  </dependencies>
+    <dependencies>
+        <!-- Spring Boot Web Starter -->
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-web</artifactId>
+        </dependency>
 
-  <build>
-    <plugins>
-      <plugin>
-        <groupId>org.apache.maven.plugins</groupId>
-        <artifactId>maven-compiler-plugin</artifactId>
-        <version>3.10.1</version>
-        <configuration>
-          <source>${maven.compiler.source}</source>
-          <target>${maven.compiler.target}</target>
-        </configuration>
-      </plugin>
+        <!-- Optional: Actuator for monitoring -->
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-actuator</artifactId>
+        </dependency>
 
-      <plugin>
-        <groupId>com.microsoft.azure</groupId>
-        <artifactId>azure-functions-maven-plugin</artifactId>
-        <version>1.16.0</version>
-        <configuration>
-          <resourceGroup>${functionResourceGroup}</resourceGroup>
-          <appName>${functionAppName}</appName>
-          <region>${functionRegion}</region>
-          <runtime>
-            <os>windows</os>
-            <javaVersion>11</javaVersion>
-          </runtime>
-          <appSettings>
-            <property>
-              <name>FUNCTIONS_EXTENSION_VERSION</name>
-              <value>~4</value>
-            </property>
-          </appSettings>
-          <deployment>
-            <type>zip</type>
-          </deployment>
-        </configuration>
-        <executions>
-          <execution>
-            <id>package-functions</id>
-            <goals>
-              <goal>package</goal>
-            </goals>
-          </execution>
-        </executions>
-      </plugin>
-    </plugins>
-  </build>
+        <!-- Optional: Testing -->
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-test</artifactId>
+            <scope>test</scope>
+        </dependency>
+    </dependencies>
+
+    <build>
+        <plugins>
+            <!-- Spring Boot Maven Plugin -->
+            <plugin>
+                <groupId>org.springframework.boot</groupId>
+                <artifactId>spring-boot-maven-plugin</artifactId>
+                <version>${spring.boot.version}</version>
+            </plugin>
+        </plugins>
+    </build>
 </project>
