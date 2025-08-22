@@ -56,7 +56,7 @@ pipeline {
                     sh '''
                     kubectl get node
                     kubectl apply -f k8s/deployment.yaml
-                    kubectl apply -f k8s/service-nodeport.yaml
+                    kubectl apply -f k8s/service.yaml
                     '''
                 }
             }
